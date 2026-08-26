@@ -1,0 +1,3 @@
+{"invariant_assertion": "(node == arm64 & state == ACTIVE)", "payload": {"node": "arm64", "state": "ACTIVE"}, "telemetry_standard": "333"}
+{"invariant_assertion": "state == ACTIVE", "payload": {"node": "arm64", "state": "ACTIVE"}, "telemetry_standard": "333"}
+{"invariant_assertion": "state == ACTIVE", "payload": {"service": "auth", "state": "ACTIVE"}, "telemetry_standard": "333"}

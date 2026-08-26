@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=61.0.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "facts-db"
+version = "2.3.0"
+description = "Algebraic normalization, JSON IR serialization, telemetry verification, and live daemon guard"
+readme = "README.md"
+requires-python = ">=3.8"
+dependencies = []
+
+[project.optional-dependencies]
+test = ["pytest>=7.0.0"]
+
+[project.scripts]
+facts-db = "facts_db.cli:main"
