@@ -5,7 +5,8 @@ class ComplianceReporter:
     def __init__(self, client_name: str, tier: str = "Standard"):
         self.client_name = client_name
         self.tier = tier
-        self.timestamp = datetime.datetime.utcnow().isoformat() + "Z"
+        # Resolved deprecation by using timezone-aware UTC datetime.now(datetime.UTC)
+        self.timestamp = datetime.datetime.now(datetime.UTC).isoformat().replace("+00:00", "Z")
 
     def generate_audit_report(self, verified_logs_count: int, blocked_logs_count: int) -> dict:
         """Generate a standardized enterprise compliance onboarding dossier."""
