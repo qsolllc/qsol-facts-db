@@ -2,7 +2,7 @@ import argparse
 import sys
 import json
 from facts_db.core import FactsDB
-from facts_db.telemetry import TelemetryVerifier
+from facts_db.compliance import TelemetryVerifier
 from facts_db.policy import PolicyEvaluator
 from facts_db.daemon import TelemetryDaemon
 from facts_db.prover import TautologyProver
