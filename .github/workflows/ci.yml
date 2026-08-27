@@ -32,9 +32,10 @@ jobs:
           targets: ${{ matrix.target }}
       - name: Build Rust binary
         run: |
-          cargo build --release --target ${{ matrix.target }} --manifest-path ir_bridge/Cargo.toml || echo "Rust bridge not yet present - skipping"
+          cargo build --release --target ${{ matrix.target }} --manifest-path facts_db_rs/Cargo.toml
           mkdir -p dist
-          cp ir_bridge/target/${{ matrix.target }}/release/facts-db-rs dist/ 2>/dev/null || true
+          cp facts_db_rs/target/${{ matrix.target }}/release/facts-db-rs dist/ 2>/dev/null || true
+          ls -lh facts_db_rs/target/${{ matrix.target }}/release/ || true
       - uses: actions/setup-python@v5
         with: { python-version: '3.11' }
       - name: Build Python artifacts
