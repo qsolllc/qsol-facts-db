@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "facts_db"
-version = "2.5b"
+version = "2.5c"
 description = "QSol Assurance Kernel & ZK Audit Framework"
 readme = "README.md"
 requires-python = ">=3.11"
