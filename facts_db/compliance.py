@@ -1,0 +1,76 @@
+import json
+import datetime
+
+class ComplianceReporter:
+    def __init__(self, client_name: str, tier: str = "Standard"):
+        self.client_name = client_name
+        self.tier = tier
+        # Resolved deprecation by using timezone-aware UTC datetime.now(datetime.UTC)
+        self.timestamp = datetime.datetime.now(datetime.UTC).isoformat().replace("+00:00", "Z")
+
+    def generate_audit_report(self, verified_logs_count: int, blocked_logs_count: int) -> dict:
+        """Generate a standardized enterprise compliance onboarding dossier."""
+        total_requests = verified_logs_count + blocked_logs_count
+        compliance_rate = (verified_logs_count / total_requests * 100) if total_requests > 0 else 100.0
+
+        report = {
+            "client": self.client_name,
+            "service_tier": self.tier,
+            "timestamp": self.timestamp,
+            "telemetry_standard": "333",
+            "metrics": {
+                "total_processed": total_requests,
+                "verified_passes": verified_logs_count,
+                "security_blocks": blocked_logs_count,
+                "compliance_score_percent": round(compliance_rate, 2)
+            },
+            "status": "APPROVED" if compliance_rate >= 80.0 else "REVIEW_REQUIRED"
+        }
+        return report
+
+import json as _json
+
+class TelemetryVerifier:
+    def __init__(self, standard_invariant="state == ACTIVE"):
+        self.standard = standard_invariant
+
+    def check_invariant(self, payload, invariant):
+        try:
+            if "==" in invariant:
+                k, v = invariant.split("==")
+                k = k.strip().split()[-1]
+                v = v.strip().strip('"').strip("'")
+                return str(payload.get(k)) == v
+            return True
+        except:
+            return False
+
+    def verify_payload(self, payload_data, invariant):
+        results = []
+        lines = payload_data.strip().splitlines()
+        for line in lines:
+            line=line.strip()
+            if not line: continue
+            try:
+                payload = _json.loads(line)
+            except Exception as e:
+                return {"status":"ERROR","reason":f"Malformed JSON: {line[:80]} - {e}"}
+            ok = self.check_invariant(payload, invariant)
+            results.append({"payload":payload,"ok":ok})
+        if len(results)==1:
+            r = results[0]
+            return {
+                "status": "APPROVED" if r["ok"] else "BLOCKED",
+                "standard": self.standard,
+                "invariant": invariant,
+                "payload_keys": list(r["payload"].keys())
+            }
+        else:
+            approved = [r for r in results if r["ok"]]
+            blocked = [r for r in results if not r["ok"]]
+            return {
+                "status": "MIXED",
+                "approved": len(approved),
+                "blocked": len(blocked),
+                "details": results
+            }

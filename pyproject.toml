@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "facts_db"
+version = "2.5.4"
+description = "QSol Assurance Kernel & ZK Audit Framework"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+facts-db = "facts_db.cli:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest>=7.0.0",
+]
+
+[tool.setuptools]
+packages = ["facts_db", "zk_audit"]

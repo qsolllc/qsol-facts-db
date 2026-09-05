@@ -1,0 +1,49 @@
+name: QSol FactsDB CI + Release
+
+on:
+  push:
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - run: pip install -e . && pip install pytest
+      - run: PYTHONPATH=. pytest tests -q
+
+  build-and-release:
+    needs: test
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    strategy:
+      matrix:
+        target: [x86_64-unknown-linux-gnu, aarch64-unknown-linux-gnu]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build Rust binary
+        run: |
+          cargo build --release --target ${{ matrix.target }} --manifest-path facts_db_rs/Cargo.toml
+          mkdir -p dist
+          cp facts_db_rs/target/${{ matrix.target }}/release/facts-db-rs dist/ 2>/dev/null || true
+          ls -lh facts_db_rs/target/${{ matrix.target }}/release/ || true
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.11' }
+      - name: Build Python artifacts
+        run: |
+          pip install build
+          python -m build
+          ls -lh dist/
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
