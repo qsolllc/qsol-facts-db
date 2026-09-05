@@ -1,0 +1,16 @@
+{
+  "similarity": {
+    "structural": {
+      "artifacts": {}
+    },
+    "semantic": {
+      "fields": {}
+    },
+    "behavioral": {
+      "pipelines": {}
+    },
+    "origin": {
+      "comparisons": {}
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "invariant": "333",
+  "spec_id": "MNT4992-FEATURE-001",
+  "target": "QSOL-CORE-V1",
+  "version": "1.0.0",
+  "hashes": {
+    "feature_hash": "sha256:385d0cf23f64a09a978f2e8dde8ec7bb8491f68441438c8e0a94bc6b40ee6647"
+  }
+}
