@@ -1,0 +1,8 @@
+{
+  "kernel": "QSOL-CORE-V1",
+  "node": "Pocatello-ARM64",
+  "attestation_sha256": "e8652906f31c20fd8c1c4e26a3be83c6bb219ee3375b9d67201771391bd658fc",
+  "timestamp_request_sha256": "8946ea0a59a3058d6b0eb6db94354281b24a0b4e92e3c0438c09d1e208618178",
+  "status": "SEALED",
+  "invariant": "333"
+}
